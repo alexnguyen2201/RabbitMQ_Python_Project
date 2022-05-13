@@ -13,9 +13,8 @@ class Status(str, enum.Enum):
 
 class OrderBase(BaseModel):
     email: Optional[EmailStr] = None
-    total: Optional[int] = None
-    status = Optional[Status] = None
     created_at: Optional[datetime] = None
+    status = Optional[Status] = None
 
 
 class OrderInCreate(OrderBase):
@@ -29,8 +28,6 @@ class OrderInUpdate(OrderBase):
 class OrderInDBBase(OrderBase):
     id: int
     email: EmailStr
-    total: int
-    status: Status
 
     class Config:
         orm_mode = True
