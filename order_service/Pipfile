@@ -6,6 +6,11 @@ name = "pypi"
 [packages]
 fastapi-utils = "==0.2.1"
 uvicorn = "==0.17.6"
+alembic = "*"
+python-dotenv = "==0.20.0"
+mysql = "==0.0.3"
+mysql-connector-python = "==8.0.28"
+mysqlclient = "==2.1.0"
 
 [dev-packages]
 autopep8 = "*"
