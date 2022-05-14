@@ -21,7 +21,7 @@ def read_items(
     """
     Retrieve items by admin.
     """
-    return items.get_multi(skip=skip, limit=limit)
+    return items.get_multi(db, skip=skip, limit=limit)
 
 
 @router.post("/", response_model=schemas.Item)

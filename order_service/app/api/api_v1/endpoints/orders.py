@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from app.api.api_v1.dependenies.database import get_db
 from app.config import settings
 from app.schemas.orders import Status
+from app.services import mq_service
 
 router = APIRouter()
 
@@ -60,6 +61,8 @@ def create_order(
             item_id=item_id, quantity=quantity,
             order_id=order_id, total=total
         ))
+
+    mq_service.exchange_services(order_response)
 
     return order_response
 
