@@ -16,13 +16,10 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(
             length=50), nullable=False),
-        sa.Column('quantity', sa.Integer(), nullable=False),
-        sa.Column('order_id', sa.Integer(), nullable=True),
-        sa.ForeignKeyConstraint(
-            ['order_id'], ['orders.id'], ondelete='CASCADE'),
+        sa.Column('price', sa.Integer(), nullable=False),
         sa.PrimaryKeyConstraint('id')
     )
-
+    op.create_index(op.f('ix_item_id'), 'items', ['id'], unique=True)
     op.create_index(op.f('ix_item_name'), 'items', ['name'], unique=True)
 
 

@@ -4,23 +4,23 @@ from pydantic import BaseModel
 
 
 class ItemBase(BaseModel):
-    name: Optional[str] = None
-    quantity: Optional[int] = None
+    pass
 
 
 class ItemInCreate(ItemBase):
     name: str
-    quantity: int
+    price: int
 
 
 class ItemInUpdate(ItemBase):
-    pass
+    name: Optional[str] = None
+    price: Optional[int] = None
 
 
 class ItemInDBBase(ItemBase):
     id: int
     name: str
-    quantity: int
+    price: int
 
     class Config:
         orm_mode = True

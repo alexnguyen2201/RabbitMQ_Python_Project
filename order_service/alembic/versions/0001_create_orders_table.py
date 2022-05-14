@@ -15,15 +15,15 @@ def upgrade():
         'orders',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('email', sa.String(length=225), nullable=False),
-        sa.Column('total', sa.Integer(), nullable=False),
         sa.Column('created_at', sa.DateTime),
+        sa.Column('total', sa.Integer(), nullable=False),
         sa.Column('status', sa.Enum('pending', 'accepted',
                   'delivered', name='status_type')),
         sa.PrimaryKeyConstraint('id')
     )
-
-    op.create_index(op.f('ix_order_email'), 'orders', ['email'], unique=True)
+    op.create_index(op.f('ix_order_id'), 'orders', ['id'], unique=True)
+    op.create_index(op.f('ix_order_email'), 'orders', ['email'])
 
 
 def downgrade():
-    op.drop_table('items')
+    op.drop_table('orders')
