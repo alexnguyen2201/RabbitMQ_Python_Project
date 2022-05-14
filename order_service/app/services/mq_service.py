@@ -13,11 +13,15 @@ def exchange_services(order):
     connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
 
-    channel.exchange_declare(exchange='orders', exchange_type='fanout')
+    channel.queue_declare(
+        queue='orders', durable=True)
 
     body = json.dumps(order, indent=4,
                       sort_keys=True, default=str)
 
-    channel.basic_publish(exchange='orders', routing_key='', body=body)
-    print(f" [x] Sent {body}")
+    channel.basic_publish(exchange='', routing_key='orders', body=body,
+                          properties=pika.BasicProperties(
+                              delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
+                          ))
+    # print(f" [x] Sent {body}")
     connection.close()

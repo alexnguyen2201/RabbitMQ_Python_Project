@@ -62,7 +62,7 @@ def create_order(
             order_id=order_id, total=total
         ))
 
-    mq_service.exchange_services(order_response)
+    mq_service.exchange_services(order_response.dict())
 
     return order_response
 
