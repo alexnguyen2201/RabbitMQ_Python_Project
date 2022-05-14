@@ -3,23 +3,26 @@ from typing import Any, Dict, Union
 
 from sqlalchemy.orm import Session
 from app.schemas.datetime import DateTime
-from app.db.repositories.base import RepositoryBase
+from app.db.repositories.base import BaseRepository
 from app.models.orders import Order
 from app.schemas.orders import OrderInCreate, OrderInUpdate
 from app.config import settings
+from app.schemas.orders import Status
 
 
-class OrdersRepository(RepositoryBase[Order, OrderInCreate, OrderInUpdate]):
-    def create(self, db: Session, *, obj_in: OrderInCreate) -> Order:
+class OrdersRepository(BaseRepository[Order, OrderInCreate, OrderInUpdate]):
+    def create(self, db: Session, *,
+               obj_in: OrderInCreate, total: int) -> Order:
         db_obj = Order()
-        exclude_keys_in_user_model = ['created_at']
+        exclude_keys_in_orders_model = ['created_at', 'status']
 
         for key, value in obj_in.__dict__.items():
-            if key not in exclude_keys_in_user_model:
+            if key not in exclude_keys_in_orders_model:
                 setattr(db_obj, key, value)
 
         db_obj.created_at = settings.current_time()
-
+        db_obj.status = Status.pending
+        db_obj.total = total
         return super().create(db, obj_in=db_obj)
 
     def update(

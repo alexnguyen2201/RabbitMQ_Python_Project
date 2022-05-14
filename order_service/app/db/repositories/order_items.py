@@ -3,16 +3,19 @@ from typing import List
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 from app.db.repositories.base import BaseRepository
-from app.models.items import Item
-from app.schemas.items import ItemInCreate, ItemInUpdate
+from app.models.order_items import OrderItem
+from app.schemas.order_items import OrderItemInCreate, OrderItemInUpdate
 
 
-class ItemsRepository(BaseRepository[Item, ItemInCreate, ItemInUpdate]):
-    def create_with_order(
-        self, db: Session, *, obj_in: ItemInCreate, order_id: int
-    ) -> Item:
+class OrderItemsRepository(BaseRepository[
+        OrderItem,
+        OrderItemInCreate,
+        OrderItemInUpdate]):
+    def create(
+        self, db: Session, *, obj_in: OrderItemInCreate
+    ) -> OrderItem:
         obj_in_data = jsonable_encoder(obj_in)
-        db_obj = self.model(**obj_in_data, order_id=order_id)
+        db_obj = self.model(**obj_in_data)
         db.add(db_obj)
         db.commit()
         db.refresh(db_obj)
@@ -20,7 +23,7 @@ class ItemsRepository(BaseRepository[Item, ItemInCreate, ItemInUpdate]):
 
     def get_multi(
         self, db: Session, *, skip: int = 0, limit: int = 100
-    ) -> List[Item]:
+    ) -> List[OrderItem]:
 
         q = db.query(self.model)
         q = q.limit(limit)
@@ -29,4 +32,4 @@ class ItemsRepository(BaseRepository[Item, ItemInCreate, ItemInUpdate]):
         return q.all()
 
 
-items = ItemsRepository(Item)
+order_items = OrderItemsRepository(OrderItem)

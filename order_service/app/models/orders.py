@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from .order_items import OrderItem  # noqa: F401
 
 
-class Status(enum.Enum):
+class Status(str, enum.Enum):
     pending = 'pending'
     accepted = 'accepted'
     delivered = 'delivered'
@@ -22,6 +22,7 @@ class Order(Base):
     email = Column((String(255)), unique=True, index=True, nullable=False)
     created_at = Column(DateTime)
     status = Column(Enum(Status), index=True)
+    total = Column(Integer, nullable=False)
 
     order_item = relationship(
         "OrderItem", back_populates="order", cascade="all,delete")
@@ -29,7 +30,6 @@ class Order(Base):
     def __repr__(self):
         return f"""
                     email: {self.email},
-                    total: {self.total},
                     created_at: {self.created_at},
                     status: {self.status}
                 """

@@ -17,8 +17,9 @@ class OrderItem(Base):
 
     order_id = Column(Integer, ForeignKey("orders.id", ondelete="CASCADE"))
     order = relationship("Order", back_populates="order_item")
+
     item_id = Column(Integer, ForeignKey("items.id", ondelete="CASCADE"))
-    item = relationship("Order", back_populates="order_item")
+    item = relationship("Item", back_populates="order_item")
 
     def __repr__(self):
         return f"""

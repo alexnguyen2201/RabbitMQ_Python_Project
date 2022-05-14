@@ -1,8 +1,9 @@
 import enum
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 from pydantic import BaseModel, EmailStr
+from app.schemas.items import ItemBase, Item
 
 
 class Status(str, enum.Enum):
@@ -13,28 +14,40 @@ class Status(str, enum.Enum):
 
 class OrderBase(BaseModel):
     email: Optional[EmailStr] = None
-    created_at: Optional[datetime] = None
-    status = Optional[Status] = None
+
+
+class ItemInCreateOrder(ItemBase):
+    id: int
+    quantity: int
 
 
 class OrderInCreate(OrderBase):
     email: EmailStr
+    items: List[ItemInCreateOrder]
 
 
 class OrderInUpdate(OrderBase):
-    pass
+    items: Optional[List[ItemInCreateOrder]] = None
 
 
 class OrderInDBBase(OrderBase):
     id: int
     email: EmailStr
+    created_at: datetime
+    status: Status
+    total: int
 
     class Config:
         orm_mode = True
 
 
+class ItemInOrder(Item):
+    quantity: int
+    total: int
+
+
 class Order(OrderInDBBase):
-    pass
+    items: List[ItemInOrder]
 
 
 class OrderInDB(OrderInDBBase):

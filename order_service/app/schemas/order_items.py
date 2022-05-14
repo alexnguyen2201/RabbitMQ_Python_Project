@@ -1,18 +1,15 @@
-from typing import Optional
-
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 
 class OrderItemBase(BaseModel):
-    email: Optional[EmailStr] = None
-    total: Optional[int] = None
-    order_id: Optional[int] = None
-    item_id: Optional[int] = None
-    quality: Optional[int] = None
+    pass
 
 
 class OrderItemInCreate(OrderItemBase):
-    email: EmailStr
+    order_id: int
+    item_id: int
+    quantity: int
+    total: int
 
 
 class OrderItemInUpdate(OrderItemBase):
@@ -21,16 +18,18 @@ class OrderItemInUpdate(OrderItemBase):
 
 class OrderItemInDBBase(OrderItemBase):
     id: int
-    email: EmailStr
+    order_id: int
+    item_id: int
+    quantity: int
     total: int
 
     class Config:
         orm_mode = True
 
 
-class Order(OrderItemInDBBase):
+class OrderItem(OrderItemInDBBase):
     pass
 
 
-class OrderInDB(OrderItemInDBBase):
+class OrderItemInDB(OrderItemInDBBase):
     pass

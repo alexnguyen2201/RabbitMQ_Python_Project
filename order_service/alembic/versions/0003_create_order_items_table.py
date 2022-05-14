@@ -14,7 +14,7 @@ def upgrade():
     op.create_table(
         'order_items',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('quanlity', sa.Integer(), nullable=False),
+        sa.Column('quantity', sa.Integer(), nullable=False),
         sa.Column('total', sa.Integer(), nullable=False),
 
         sa.Column('order_id', sa.Integer(), nullable=True),
@@ -32,4 +32,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('items')
+    op.drop_table('order_items')
