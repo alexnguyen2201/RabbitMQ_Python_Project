@@ -5,7 +5,7 @@ import json
 def exchange_services(order):
 
     credentials = pika.PlainCredentials('admin', 'admin')
-    parameters = pika.ConnectionParameters('localhost',
+    parameters = pika.ConnectionParameters('rabbitmq',
                                            5672,
                                            '/',
                                            credentials)

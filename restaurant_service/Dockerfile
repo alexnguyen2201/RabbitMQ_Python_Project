@@ -25,9 +25,7 @@ RUN pipenv install --system --deploy --ignore-pipfile
 # Copy the source code
 COPY . .
 
-# Expose the port
-EXPOSE 8080
 
 
 # Start the node server
-CMD ["python", "main.py", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "main.py"]

@@ -5,7 +5,7 @@ import json
 
 def amqp_connect_and_consume():
     credentials = pika.PlainCredentials('admin', 'admin')
-    parameters = pika.ConnectionParameters('localhost',
+    parameters = pika.ConnectionParameters('rabbitmq',
                                            5672,
                                            '/',
                                            credentials)

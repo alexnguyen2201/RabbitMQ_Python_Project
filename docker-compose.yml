@@ -1,37 +1,39 @@
-version: '1'
+version: '3.8'
 
 services:
-  # order-service:
-  #   restart: always
-  #   build: ./order_service
-  #   depends_on:
-  #     - mysql
-  #     - rabbitmq
-  #   environment:
-  #     - PORT=3000
-  #     - MQ_HOST=rabbitmq
-  #     - MYSQL_HOST=mysql
-  #     - SLEEP_TIME=20000
-  #   ports:
-  #     - '3000:3000'
+  order-service:
+    restart: always
+    build: ./order_service
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      - PORT=3000
+      - MQ_HOST=rabbitmq
+      - MYSQL_HOST=mysql
+      - SLEEP_TIME=20000
+    ports:
+      - '3000:3000'
+    networks:
+      - ihddocker
 
-  # restaurant-service:
-  #   restart: always # automatically restart if the app fails
-  #   build: ./restaurant_service # build the image from the dockerfile present in the restaurant-service directory
-  #   depends_on:
-  #     - mysql
-  #     - rabbitmq
-  #   environment:
-  #     # environment variables
-  #     - MQ_HOST=rabbitmq
-  #     - MYSQL_HOST=mysql # this should be the same as the name of the DB service below
-  #     - SLEEP_TIME=20000
-  #   ports:
-  #     - '8080:8080'
+  restaurant-service:
+    restart: always # automatically restart if the app fails
+    build: ./restaurant_service # build the image from the dockerfile present in the restaurant-service directory
+    depends_on:
+      - mysql
+      - rabbitmq
+    environment:
+      # environment variables
+      - MQ_HOST=rabbitmq
+      - MYSQL_HOST=mysql # this should be the same as the name of the DB service below
+      - SLEEP_TIME=20000
+    networks:
+      - ihddocker
 
   rabbitmq:
     image: rabbitmq:3.10-management
-    hostname: "rabbit"
+    hostname: "rabbitmq"
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -43,9 +45,12 @@ services:
       - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
       - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
     # docker exec [CONTAINER_NAME] rabbitmq-plugins enable rabbitmq_management enable management
+    networks:
+      - ihddocker
 
   mysql:
     platform: linux/x86_64
+    hostname: "mysql"
     image: mysql:8.0
     ports:
       - "3306:3306"
@@ -54,3 +59,9 @@ services:
       - MYSQL_USER=test
       - MYSQL_PASSWORD=test
       - MYSQL_ROOT_PASSWORD=test
+    networks:
+      - ihddocker
+
+networks:
+  ihddocker:
+    external: true
