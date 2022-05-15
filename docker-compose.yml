@@ -1,18 +1,33 @@
 version: '1'
+
 services:
-  order-service:
-    restart: always
-    build: ./order_service/
-    depends_on:
-      - mysql
-      - rabbitmq
-    environment:
-      - PORT=3000
-      - MQ_HOST=rabbitmq
-      - MYSQL_HOST=mysql
-      - SLEEP_TIME=20000
-    ports:
-      - '3000:3000'
+  # order-service:
+  #   restart: always
+  #   build: ./order_service
+  #   depends_on:
+  #     - mysql
+  #     - rabbitmq
+  #   environment:
+  #     - PORT=3000
+  #     - MQ_HOST=rabbitmq
+  #     - MYSQL_HOST=mysql
+  #     - SLEEP_TIME=20000
+  #   ports:
+  #     - '3000:3000'
+
+  # restaurant-service:
+  #   restart: always # automatically restart if the app fails
+  #   build: ./restaurant_service # build the image from the dockerfile present in the restaurant-service directory
+  #   depends_on:
+  #     - mysql
+  #     - rabbitmq
+  #   environment:
+  #     # environment variables
+  #     - MQ_HOST=rabbitmq
+  #     - MYSQL_HOST=mysql # this should be the same as the name of the DB service below
+  #     - SLEEP_TIME=20000
+  #   ports:
+  #     - '8080:8080'
 
   rabbitmq:
     image: rabbitmq:3.10-management
@@ -28,6 +43,7 @@ services:
       - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
       - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
     # docker exec [CONTAINER_NAME] rabbitmq-plugins enable rabbitmq_management enable management
+
   mysql:
     platform: linux/x86_64
     image: mysql:8.0
