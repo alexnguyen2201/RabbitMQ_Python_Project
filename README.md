@@ -15,6 +15,8 @@ docker network create "ihddocker"
 ```console
 docker-compose up --scale restaurant-service=2
 ```
+![Screen Shot 2022-05-15 at 12 56 28](https://user-images.githubusercontent.com/53045534/168459250-9300bbeb-881c-458d-857e-c4a711c4f508.png)
+
 ## Create Database
 ```console
 docker exec -it rabbitmq-python-project-mysql-1 /bin/sh
