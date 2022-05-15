@@ -48,6 +48,7 @@ Or we can see logs of all container at `docker-compose up --scale restaurant-ser
 
 ## Use API
 Open browser: http://localhost:3000/docs 
+![Screen Shot 2022-05-15 at 12 57 14](https://user-images.githubusercontent.com/53045534/168459281-970994ae-b4e1-4f3d-be87-d05ac1fd38dd.png)
 
 Creat item first:
 Use API POST `/api/v1/item/`
